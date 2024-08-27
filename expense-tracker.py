@@ -91,11 +91,18 @@ def arg_parse():
     add_parser.add_argument('category', help='Category of the expense')
 
     modify_parser = subparser.add_parser('modify', help='Modify an existing expense')
-    modify_parser.add_argument('--index',type=int, help='Index of the expense to modify')
+    modify_parser.add_argument('--index', type=int, help='Index of the expense to modify')
     modify_parser.add_argument('--date', help='New date of the expense')
     modify_parser.add_argument('--description', help='New description of the expense')
     modify_parser.add_argument('--amount', help='New amount of the expense')
     modify_parser.add_argument('--category', help='New category of the expense')
+
+    delete_parser = subparser.add_parser('delete', help='Delete an existing expense')
+    delete_parser.add_argument('--index', type=int, help='Index of the expense to delete')
+
+    subparser.add_parser('view', help='View all expenses')
+    subparser.add_parser('sum', help='Summarize expenses')
+    # view_expense_parse.add_argument('-view', help='View all expenses')
 
     args = parser.parse_args()
     return args
@@ -110,6 +117,12 @@ def main():
     if args.command == 'modify':
         expense_tracker.modify_expense(args.index, date=args.date, description=args.description, amount=args.amount,
                                        category=args.category)
+    if args.command == 'view':
+        expense_tracker.view_expenses()
+    if args.command == 'delete':
+        expense_tracker.delete_expense(args.index)
+    if args.command == 'sum':
+        expense_tracker.summarize_expenses()
 
     # expense_tracker = ExpenseTracker('demo_expenses.csv')
     # expense_tracker.add_expense('dinner', 100, 'dinner')
@@ -118,7 +131,7 @@ def main():
     # expense_tracker.add_expense('groceries', 200, 'groceries')
     # expense_tracker.view_expenses()
     # print()
-    expense_tracker.modify_expense(1, amount='150')
+    # expense_tracker.modify_expense(1, amount='150')
     # expense_tracker.view_expenses()
     # print()
     # expense_tracker.delete_expense(2)
